@@ -12,21 +12,21 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-
+        // Fetch users directly from the admin users endpoint
         const usersResponse = await fetchWithAuth(`${import.meta.env.VITE_API_URL}/admin/users`);
         const usersCount = Array.isArray(usersResponse) ? usersResponse.length : 0;
 
-     
+        // Fetch orders from the admin orders endpoint
         const ordersResponse = await fetchWithAuth(`${import.meta.env.VITE_API_URL}/admin/orders`);
         const ordersArray = ordersResponse.data || [];
         const ordersCount = ordersArray.length;
 
-       
+        // Calculate total sales from orders with status "Enviado" OR "Entregado"
         const totalSales = ordersArray
-          .filter(order => order.estado === "Enviado")
+          .filter(order => order.estado === "Enviado" || order.estado === "Entregado")
           .reduce((sum, order) => sum + parseFloat(order.precio_total || 0), 0);
 
-    
+        // Fetch artworks from the home page endpoint
         const artworksResponse = await fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/artworks`);
         const artworksCount = Array.isArray(artworksResponse) ? artworksResponse.length : 0;
 
