@@ -1,0 +1,22 @@
+{
+  "name": "galeria-arte",
+  "version": "1.0.0",
+  "description": "Marketplace full-stack especializado en la compraventa de obras de arte",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "marketplace",
+    "ecommerce",
+    "react",
+    "node",
+    "express"
+  ],
+  "author": "Jorge González, Daniela Guardia, Joaquín Zúñiga",
+  "license": "MIT",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
+}

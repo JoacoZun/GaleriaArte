@@ -1,0 +1,114 @@
+/* Global Styles */
+:root {
+    --primary-blue: #4a90e2;
+    --secondary-blue: #2a3b5f;
+    --neutral-light: #ffffffde;
+    --neutral-dark: #333333;
+    --highlight-accent: #ffc857;
+    --error-color: #d9534f;
+    --success-color: #4ae250;
+  
+    --brand-font: "Zen Dots", sans-serif;
+    --regular-font: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+  
+    color: var(--neutral-dark);
+    background-color: var(--neutral-light);
+  }
+  
+  /* Container for the Terms Page */
+  .terms-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--neutral-light);
+  }
+  
+  h1 {
+    font-family: var(--brand-font);
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  h2 {
+    font-family: var(--regular-font);
+    font-size: 1.8rem;
+    color: var(--secondary-blue);
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-family: var(--regular-font);
+    font-size: 1.1rem;
+    color: var(--neutral-dark);
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+  
+  li {
+    font-family: var(--regular-font);
+    font-size: 1.1rem;
+    color: var(--neutral-dark);
+    margin-bottom: 10px;
+  }
+  
+  /* Accent and Links */
+  a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  a:hover {
+    color: var(--highlight-accent);
+  }
+  
+  /* Footer */
+  .terms-footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 1rem;
+    color: var(--neutral-dark);
+  }
+  
+  .terms-footer a {
+    color: var(--primary-blue);
+    font-weight: bold;
+  }
+  
+  .terms-footer a:hover {
+    color: var(--highlight-accent);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .terms-container {
+      padding: 15px;
+    }
+  
+    h1 {
+      font-size: 2rem;
+    }
+  
+    h2 {
+      font-size: 1.5rem;
+    }
+  
+    p {
+      font-size: 1rem;
+    }
+  }
+  

@@ -1,0 +1,36 @@
+.table-container {
+    margin-left: 260px;
+    padding: 20px;
+  }
+  
+  .tabla {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .tabla th, .tabla td {
+    padding: 10px;
+    border: 1px solid var(--neutral-dark);
+  }
+  
+  .tabla th {
+    background-color: var(--primary-blue);
+    color: var(--neutral-light);
+  }
+  
+  .tabla td button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .tabla td button:first-child {
+    background-color: var(--highlight-accent);
+  }
+  
+  .tabla td button:last-child {
+    background-color: var(--error-color);
+    color: white;
+  }
+  

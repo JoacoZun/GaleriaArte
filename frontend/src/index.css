@@ -1,0 +1,19 @@
+:root {
+  --primary-blue: #4a90e2;
+  --secondary-blue: #2a3b5f;
+  --neutral-light: #ffffffde;
+  --neutral-dark: #333333;
+  --highlight-accent: #ffc857;
+  --error-color: #d9534f;
+  --success-color: #4ae250;
+
+  --brand-font: "Zen Dots", sans-serif;
+  --regular-font: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: var(--neutral-dark);
+  background-color: var(--neutral-light);
+}

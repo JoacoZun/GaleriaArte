@@ -1,0 +1,131 @@
+/* Contenedor principal */
+.product-detail-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 36px auto;
+  padding: 20px;
+}
+
+/* Imagen */
+.product-detail-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.product-detail-img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  max-height: 70vh;
+  border-radius: 8px;
+  object-fit: contain;
+  transition: transform 200ms ease-in;
+}
+
+.product-detail-img:hover {
+  transform: scale(1.05);
+}
+
+/* Contenedor de la información */
+.product-detail-info {
+  flex: 1;
+  max-width: 600px;
+}
+
+/* Ajuste de textos */
+.product-detail-info h2 {
+  font-size: 2rem;
+}
+
+.product-detail-info h3 {
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.product-detail-info p {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.product-detail-info .btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2rem;
+  border: none;
+}
+
+/* 🔹 MODO RESPONSIVO 🔹 */
+@media (max-width: 768px) {
+  .product-detail-container {
+    flex-direction: column; /* Se vuelve vertical en móviles */
+    text-align: center;
+    gap: 1rem;
+    padding: 15px;
+  }
+
+  .product-detail-image-wrapper {
+    order: -1; /* Imagen arriba en móviles */
+  }
+
+  .product-detail-img {
+    max-width: 90%;
+    max-height: 50vh;
+  }
+
+  .product-detail-info {
+    max-width: 90%;
+    text-align: left !important; /* Se mantiene alineado */
+  }
+
+  .product-detail-info h2 {
+    font-size: 1.8rem;
+  }
+
+  .product-detail-info h3 {
+    font-size: 1rem;
+  }
+
+  .product-detail-info p {
+    font-size: 0.95rem;
+  }
+
+  .product-detail-info .btn {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-detail-container {
+    padding: 10px;
+  }
+
+  .product-detail-img {
+    max-width: 100%;
+    max-height: 45vh;
+  }
+
+  .product-detail-info {
+    width: 100%;
+    text-align: left !important;
+  }
+
+  .product-detail-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .product-detail-info h3 {
+    font-size: 0.9rem;
+  }
+
+  .product-detail-info p {
+    font-size: 0.9rem;
+  }
+
+  .product-detail-info .btn {
+    font-size: 0.9rem;
+  }
+}
