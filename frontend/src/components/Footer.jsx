@@ -1,6 +1,7 @@
 import React from 'react';
 import './Footer.css'; 
-import { FaGithub } from 'react-icons/fa'; // Importando icono de GitHub
+import { FaGithub } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -28,7 +29,7 @@ const Footer = () => {
       <div className="footer-section">
         <h3>TÉRMINOS Y CONDICIONES</h3>
         <ul>
-          <li><a href="/terms">Condiciones Generales</a></li>
+          <li><Link to="/terms">Condiciones Generales</Link></li>
         </ul>
       </div>
       <div className="footer-section">
