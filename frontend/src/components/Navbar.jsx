@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import './Navbar.css';
 
@@ -11,13 +11,41 @@ const Navbar = () => {
   const handleLogout = async () => {
     await logout();
     navigateTo('/');
+    closeNavbar();
   };
+
+  const closeNavbar = () => {
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    
+    if (navbarToggler && navbarCollapse) {
+      navbarToggler.classList.add('collapsed');
+      navbarToggler.setAttribute('aria-expanded', 'false');
+      navbarCollapse.classList.remove('show');
+    }
+  };
+
+  useEffect(() => {
+    // Add event listeners to close navbar when a link is clicked
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    
+    navLinks.forEach(link => {
+      link.addEventListener('click', closeNavbar);
+    });
+
+    // Cleanup event listeners
+    return () => {
+      navLinks.forEach(link => {
+        link.removeEventListener('click', closeNavbar);
+      });
+    };
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-md" data-bs-theme="dark">
       <div className="container-lg">
         <div className="navbar-brand">
-          <Link to="/" className="brand-container">
+          <Link to="/" className="brand-container" onClick={closeNavbar}>
             <img src="/images/logo.png" alt="Galería de Arte" id="myBrand" />
             <span>Galería de arte</span>
           </Link>
@@ -60,10 +88,10 @@ const Navbar = () => {
             )}
           </div>
           <div className="navbar-nav gap-2">
-            <Link to="/profile" className="nav-link">
-            {user? (<span className='mx-2'>{user.email} </span>) : null}<i className="fa-solid fa-user fa-lg"></i>
+            <Link to="/profile" className="nav-link" onClick={closeNavbar}>
+              {user? (<span className='mx-2'>{user.email} </span>) : null}<i className="fa-solid fa-user fa-lg"></i>
             </Link>
-            <Link to="/cart" className="nav-link">
+            <Link to="/cart" className="nav-link" onClick={closeNavbar}>
               <i className="fa-solid fa-cart-shopping fa-lg"></i>
             </Link>
             {rol == 'administrador' ? (
@@ -71,6 +99,7 @@ const Navbar = () => {
                 className="btn btn-outline-secondary rounded-1 ms-3 fw-bold"
                 id="adminLink"
                 to="/admin"
+                onClick={closeNavbar}
               >
                 ADMIN PANEL
               </Link>
