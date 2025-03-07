@@ -27,6 +27,18 @@ const ProductDetail = () => {
     fetchProduct(id);
   }, [id]);
 
+  // Función auxiliar para determinar la URL correcta de la imagen
+  const getImageUrl = (imgUrl) => {
+    if (!imgUrl) return '';
+    
+    // Verifica si la imagen es externa (por el campo isExternalImage o por el formato de la URL)
+    const isExternal = product.isExternalImage || 
+                      imgUrl.startsWith('http://') || 
+                      imgUrl.startsWith('https://');
+    
+    return isExternal ? imgUrl : `${import.meta.env.VITE_API_URL}/${imgUrl}`;
+  };
+
   // Muestra placeholders de bootstrap mientras se carga
   if (isLoading) {
     return (
@@ -59,7 +71,7 @@ const ProductDetail = () => {
       <div className="product-detail-image-wrapper">
         <img
           className="product-detail-img"
-          src={`${import.meta.env.VITE_API_URL}/${product.img_url}`}
+          src={getImageUrl(product.img_url)}
           alt={product.title}
         />
       </div>

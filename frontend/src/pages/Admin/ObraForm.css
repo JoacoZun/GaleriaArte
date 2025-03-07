@@ -127,6 +127,26 @@
   background: #c82333;
 }
 
+.image-input-group {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 10px;
+  width: auto;
+}
+
+.checkbox-container label {
+  font-size: 0.9rem;
+}
+
 /* Ajustes para pantallas pequeñas */
 @media screen and (max-width: 768px) {
   .form-container {

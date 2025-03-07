@@ -12,6 +12,7 @@ const ObrasAdmin = () => {
     autor: '',
     precio: '',
     img_url: '',
+    isExternalImage: false,
   });
 
   useEffect(() => {
@@ -42,6 +43,12 @@ const ObrasAdmin = () => {
   };
 
   const handleEdit = (obra) => {
+    // Determinar si la imagen es externa o local
+    const isExternalImage = obra.img_url && (
+      obra.img_url.startsWith('http://') || 
+      obra.img_url.startsWith('https://')
+    );
+
     setObraEdit(obra);
     setEditFormData({
       nombre: obra.nombre,
@@ -53,6 +60,7 @@ const ObrasAdmin = () => {
       tecnica: obra.tecnica,
       alto: obra.alto,
       ancho: obra.ancho,
+      isExternalImage: isExternalImage
     });
 
     // Hacer scroll hacia el formulario de edición automáticamente
@@ -60,18 +68,45 @@ const ObrasAdmin = () => {
   };
 
   const handleEditChange = (e) => {
-    setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    if (name === 'isExternalImage') {
+      setEditFormData({ ...editFormData, [name]: checked });
+    } else if (name === 'img_url' && editFormData.isExternalImage) {
+      // Si es una URL externa, guardarla tal cual
+      setEditFormData({ ...editFormData, [name]: value });
+    } else {
+      setEditFormData({ ...editFormData, [name]: value });
+    }
+  };
+
+  const getImageUrl = (imgUrl, isExternal) => {
+    if (!imgUrl) return '';
+    if (isExternal || imgUrl.startsWith('http://') || imgUrl.startsWith('https://')) {
+      return imgUrl;
+    }
+    return `${import.meta.env.VITE_API_URL}/${imgUrl}`;
   };
 
   const handleSave = async (newObra) => {
-    console.log('Datos enviados al backend:', newObra);
-
     if (!newObra.nombre || !newObra.autor || !newObra.precio || !newObra.img_url) {
       alert('Todos los campos son obligatorios, incluyendo la URL de la imagen.');
       return;
     }
 
     newObra.precio = parseFloat(newObra.precio);
+    
+    // Aseguramos que la información sobre si es externa se envía al backend
+    const obraData = {
+      ...newObra,
+      isExternalImage: newObra.isExternalImage || (
+        newObra.img_url && (
+          newObra.img_url.startsWith('http://') || 
+          newObra.img_url.startsWith('https://')
+        )
+      )
+    };
+
+    console.log('Datos enviados al backend:', obraData);
 
     try {
       const response = await fetchWithAuth(
@@ -81,7 +116,7 @@ const ObrasAdmin = () => {
         {
           method: obraEdit ? 'PUT' : 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newObra),
+          body: JSON.stringify(obraData),
         }
       );
 
@@ -103,6 +138,7 @@ const ObrasAdmin = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            const isExternalImage = e.target.isExternalImage.checked;
             handleSave({
               nombre: e.target.nombre.value,
               autor: e.target.autor.value,
@@ -113,6 +149,7 @@ const ObrasAdmin = () => {
               tecnica: e.target.tecnica.value,
               alto: parseInt(e.target.alto.value),
               ancho: parseInt(e.target.ancho.value),
+              isExternalImage: isExternalImage
             });
             e.target.reset();
           }}
@@ -122,7 +159,15 @@ const ObrasAdmin = () => {
           <input type="text" name="nombre" placeholder="Nombre" required />
           <input type="text" name="autor" placeholder="Autor" required />
           <input type="number" name="precio" placeholder="Precio" required />
-          <input type="text" name="img_url" placeholder="URL de la imagen" />
+          
+          <div className="image-input-group">
+            <input type="text" name="img_url" placeholder="URL de la imagen" />
+            <div className="checkbox-container">
+              <input type="checkbox" name="isExternalImage" id="addIsExternal" />
+              <label htmlFor="addIsExternal">URL externa (no almacenada en servidor)</label>
+            </div>
+          </div>
+          
           <input type="text" name="descripcion" placeholder="Descripción" />
           <input type="text" name="categoria" placeholder="Categoría" />
           <input type="text" name="tecnica" placeholder="Técnica" />
@@ -166,13 +211,27 @@ const ObrasAdmin = () => {
               onChange={handleEditChange}
               required
             />
-            <input
-              type="text"
-              name="img_url"
-              value={editFormData.img_url}
-              onChange={handleEditChange}
-              placeholder="URL de la imagen"
-            />
+
+            <div className="image-input-group">
+              <input
+                type="text"
+                name="img_url"
+                value={editFormData.img_url}
+                onChange={handleEditChange}
+                placeholder="URL de la imagen"
+              />
+              <div className="checkbox-container">
+                <input 
+                  type="checkbox" 
+                  name="isExternalImage" 
+                  id="editIsExternal"
+                  checked={editFormData.isExternalImage}
+                  onChange={handleEditChange}
+                />
+                <label htmlFor="editIsExternal">URL externa (no almacenada en servidor)</label>
+              </div>
+            </div>
+
             <input
               type="text"
               name="descripcion"
@@ -210,7 +269,7 @@ const ObrasAdmin = () => {
             />
             {editFormData.img_url && (
               <img
-                src={`${import.meta.env.VITE_API_URL}/${editFormData.img_url}`}
+                src={getImageUrl(editFormData.img_url, editFormData.isExternalImage)}
                 alt="Vista previa"
                 className="preview-img"
               />
@@ -237,25 +296,34 @@ const ObrasAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            {obras.map((obra) => (
-              <tr key={obra.id}>
-                <td>{obra.nombre}</td>
-                <td>{obra.autor}</td>
-                <td>${obra.precio}</td>
-                <td>
-                  <img
-                    src={`${import.meta.env.VITE_API_URL}/${obra.img_url}`}
-                    alt="Obra"
-                    className="obra-img"
-                  />
-                </td>
-                <td>{obra.estado}</td>
-                <td>
-                  <button onClick={() => handleEdit(obra)}>Editar</button>
-                  <button onClick={() => handleDelete(obra.id)}>Eliminar</button>
-                </td>
-              </tr>
-            ))}
+            {obras.map((obra) => {
+              const isExternalImage = obra.isExternalImage || (
+                obra.img_url && (
+                  obra.img_url.startsWith('http://') || 
+                  obra.img_url.startsWith('https://')
+                )
+              );
+              
+              return (
+                <tr key={obra.id}>
+                  <td>{obra.nombre}</td>
+                  <td>{obra.autor}</td>
+                  <td>${obra.precio}</td>
+                  <td>
+                    <img
+                      src={getImageUrl(obra.img_url, isExternalImage)}
+                      alt="Obra"
+                      className="obra-img"
+                    />
+                  </td>
+                  <td>{obra.estado}</td>
+                  <td>
+                    <button onClick={() => handleEdit(obra)}>Editar</button>
+                    <button onClick={() => handleDelete(obra.id)}>Eliminar</button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}

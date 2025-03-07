@@ -14,7 +14,19 @@ const Home = () => {
       setIsLoading(false);
     };
     fetchProducts();
-  }, [fetchWithAuth]);
+  }, []);
+
+  // Función auxiliar para determinar la URL correcta de la imagen
+  const getImageUrl = (product) => {
+    if (!product.img_url) return '';
+    
+    // Verifica si la imagen es externa (por el campo isExternalImage o por el formato de la URL)
+    const isExternal = product.isExternalImage || 
+                      product.img_url.startsWith('http://') || 
+                      product.img_url.startsWith('https://');
+    
+    return isExternal ? product.img_url : `${import.meta.env.VITE_API_URL}/${product.img_url}`;
+  };
 
   return (
     <div className="home">
@@ -30,7 +42,7 @@ const Home = () => {
               title={product.nombre}
               author={product.autor}
               price={product.precio}
-              img_url={`${import.meta.env.VITE_API_URL}/${product.img_url}`}
+              img_url={getImageUrl(product)}
             />
           ))
         )}
